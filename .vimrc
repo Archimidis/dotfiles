@@ -1,3 +1,10 @@
+"------- Functions ---------------"
+func! DeleteTrailingWS()
+    exe "normal mz"
+    %s/\s\+$//ge
+    exe "normal `z"
+endfunc
+
 "------- General VIM setup -------"
 set sessionoptions-=options
 
@@ -86,6 +93,8 @@ map <C-n> :tabnew<CR>
 " argument to :buffer. It the opens the associated buffer.
 :nnoremap <F5> :buffers<CR>:buffer<Space>
 
+noremap <leader>w :call DeleteTrailingWS()<CR>
+
 "------ Filetypes ------"
 " Vimscript
 autocmd FileType vim setlocal expandtab shiftwidth=4 tabstop=8 softtabstop=4
@@ -118,7 +127,7 @@ set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 
 " let Vundle manage Vundle
-" required! 
+" required!
 Bundle 'gmarik/vundle'
 
 Bundle 'Lokaltog/vim-easymotion'
@@ -153,8 +162,8 @@ Bundle 'FuzzyFinder'
 Bundle 'git://git.wincent.com/command-t.git'
 
 " colorschemes
-Bundle 'jpo/vim-railscasts-theme'
-Bundle 'altercation/vim-colors-solarized'
+" Bundle 'jpo/vim-railscasts-theme'
+" Bundle 'altercation/vim-colors-solarized'
 
 filetype plugin indent on
 "params[:doc_file_upload_form][:file]
