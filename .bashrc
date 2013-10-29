@@ -131,3 +131,6 @@ PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
 
 export MOZILLA_FIVE_HOME=”/usr/lib/mozilla/”
 export ECLIPSE_HOME=”/usr/local/eclipse”
+export EDITOR='vim'
+
+source ~/.tmuxinator.bash

@@ -43,6 +43,8 @@ set shortmess=atI               " shorten messages and don't show intro
 set wildmenu                    " turn on wild menu :e <Tab>
 set wildmode=list:longest       " set wildmenu to list choice
 
+set statusline=%<%f\ %h%m%r%{fugitive#statusline()}%=%-14.(%l,%c%V%)\ %P
+
 "------ Indents and tabs ------"
 set autoindent                  " set the cursor at same indent as line above
 set smartindent                 " try to be smart about indenting (C-style)
@@ -155,6 +157,7 @@ Bundle 'scrooloose/nerdtree.git'
 Bundle 'jQuery'
 Bundle 'vim-scripts/dbext.vim.git'
 Bundle 'kchmck/vim-coffee-script'
+"Bundle 'Lokaltog/powerline'
 " vim-scripts repos
 Bundle 'L9'
 Bundle 'FuzzyFinder'
