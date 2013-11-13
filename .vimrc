@@ -157,6 +157,7 @@ Bundle 'scrooloose/nerdtree.git'
 Bundle 'jQuery'
 Bundle 'vim-scripts/dbext.vim.git'
 Bundle 'kchmck/vim-coffee-script'
+Bundle 'ngmy/vim-rubocop'
 "Bundle 'Lokaltog/powerline'
 " vim-scripts repos
 Bundle 'L9'
