@@ -126,11 +126,13 @@ fi
 # Change the window title of X terminals
 PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME%%.*}:${PWD/$HOME/~}\007"'
 
-PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
-# source ~/.bash_profile
-
 export MOZILLA_FIVE_HOME=”/usr/lib/mozilla/”
 export ECLIPSE_HOME=”/usr/local/eclipse”
 export EDITOR='vim'
 
 source ~/.tmuxinator.bash
+
+### Added by the Heroku Toolbelt
+export PATH="/usr/local/heroku/bin:$PATH"
+
+PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
