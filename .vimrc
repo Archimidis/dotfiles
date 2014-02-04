@@ -1,11 +1,11 @@
-"------- Functions ---------------"
+"------- Functions -----------------------------------------------------------"
 func! DeleteTrailingWS()
     exe "normal mz"
     %s/\s\+$//ge
     exe "normal `z"
 endfunc
 
-"------- General VIM setup -------"
+"------- General VIM setup ---------------------------------------------------"
 set sessionoptions-=options
 
 " automatically reload vimrc when it's saved
@@ -26,7 +26,7 @@ map <Right> <Nop>
 map <Up> <Nop>
 map <Down> <Nop>
 
-"------ Console UI & Text display ------"
+"------ Console UI & Text display --------------------------------------------"
 set cmdheight=1                 " explicitly set the height of the command line
 set showcmd                     " Show (partial) command in status line.
 set number                      " yay line numbers
@@ -42,10 +42,18 @@ set report=0                    " report back on all changes
 set shortmess=atI               " shorten messages and don't show intro
 set wildmenu                    " turn on wild menu :e <Tab>
 set wildmode=list:longest       " set wildmenu to list choice
+"colorscheme desert
+set colorcolumn=80              " paints a column at 80
+highlight ColorColumn ctermbg=6
 
 set statusline=%<%f\ %h%m%r%{fugitive#statusline()}%=%-14.(%l,%c%V%)\ %P
 
-"------ Indents and tabs ------"
+"------ Fold -----------------------------------------------------------------"
+set foldmethod=indent           " fold based on indent
+set foldnestmax=3               " deepest fold is 3 levels
+set nofoldenable                " don't fold by default
+
+"------ Indents and tabs -----------------------------------------------------"
 set autoindent                  " set the cursor at same indent as line above
 set smartindent                 " try to be smart about indenting (C-style)
 set expandtab                   " expand <Tab>s with spaces; death to tabs!
@@ -60,7 +68,6 @@ filetype plugin indent on       " load filetype plugins and indent settings
 
 set textwidth=80
 
-
 set ignorecase
 set smartcase
 set incsearch
@@ -69,6 +76,11 @@ syntax on
 set nocompatible               " be iMproved
 filetype off                   " required!
 filetype plugin on
+
+"----- Plugins setup ---------------------------------------------------------"
+
+"----- Reek plugin ------"
+let g:reek_on_loading = 0
 
 "----- Vim-Session setup ------"
 :let g:session_autosave = 'yes'
@@ -82,7 +94,19 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTree
 "------ Pathogen ------"
 execute pathogen#infect()
 
-"----- Key bindings ------"
+"------ The Silver Searcher ------"
+if executable('ag')
+    " Use ag over grep
+    set grepprg=ag\ --nogroup\ --nocolor
+
+    " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
+    let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+
+    " ag is fast enough that CtrlP doesn't need to cache
+    let g:ctrlp_use_caching = 0
+endif
+
+"----- Key bindings ----------------------------------------------------------"
 " Tab navigation keys:
 " Ctrl + l = move to the next tab
 " Ctrl + h = move to the previous tab
@@ -97,7 +121,16 @@ map <C-n> :tabnew<CR>
 
 noremap <leader>w :call DeleteTrailingWS()<CR>
 
-"------ Filetypes ------"
+" Bind K to grep word under cursor using the silver sarcher
+nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
+
+" RSpec.vim mappings
+map <Leader>rt :call RunCurrentSpecFile()<CR>
+map <Leader>rs :call RunNearestSpec()<CR>
+map <Leader>rl :call RunLastSpec()<CR>
+map <Leader>ra :call RunAllSpecs()<CR>
+
+"------ Filetypes ------------------------------------------------------------"
 " Vimscript
 autocmd FileType vim setlocal expandtab shiftwidth=4 tabstop=8 softtabstop=4
 
@@ -128,13 +161,14 @@ let javascript_enable_domhtmlcss=1
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 
-" let Vundle manage Vundle
-" required!
+" let Vundle manage Vundle !!required!!
+" nelstrom/vim-textobj-rubyblock depends on kana/vim-textobj-user
 Bundle 'gmarik/vundle'
-
 Bundle 'Lokaltog/vim-easymotion'
 Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}
 Bundle 'vim-ruby/vim-ruby'
+Bundle 'nelstrom/vim-textobj-rubyblock'
+Bundle 'kana/vim-textobj-user'
 Bundle 'lucapette/vim-ruby-doc'
 Bundle 'tpope/vim-rails.git'
 Bundle 'tpope/vim-pathogen.git'
@@ -144,6 +178,7 @@ Bundle 'tpope/vim-surround.git'
 Bundle 'tpope/gem-ctags.git'
 Bundle 'tpope/vim-cucumber'
 Bundle 'tpope/vim-unimpaired'
+Bundle 'thoughtbot/vim-rspec'
 Bundle 'edsono/vim-matchit'
 Bundle 'MarcWeber/vim-addon-mw-utils'
 Bundle 'tomtom/tlib_vim'
@@ -159,11 +194,11 @@ Bundle 'vim-scripts/dbext.vim.git'
 Bundle 'kchmck/vim-coffee-script'
 Bundle 'ngmy/vim-rubocop'
 Bundle 'mattn/emmet-vim'
+Bundle 'rainerborene/vim-reek'
 "Bundle 'Lokaltog/powerline'
-" vim-scripts repos
+
 Bundle 'L9'
 Bundle 'FuzzyFinder'
-" non github repos
 Bundle 'git://git.wincent.com/command-t.git'
 
 " colorschemes
