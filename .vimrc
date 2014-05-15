@@ -94,6 +94,18 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTree
 "------ Pathogen ------"
 execute pathogen#infect()
 
+"------ Syntastic ------"
+let g:syntastic_check_on_open=1
+
+"------ YouCompleteMe ------"
+let g:ycm_add_preview_to_completeopt=0
+let g:ycm_confirm_extra_conf=0
+set completeopt-=preview
+
+"------ Tern for vim ------"
+imap <C-J> <Plug>snipMateNextOrTrigger
+smap <C-J> <Plug>snipMateNextOrTrigger
+
 "------ The Silver Searcher ------"
 if executable('ag')
     " Use ag over grep
@@ -187,14 +199,17 @@ Bundle 'honza/vim-snippets.git'
 Bundle 'ecomba/vim-ruby-refactoring'
 Bundle 'tpope/vim-haml'
 Bundle 'scrooloose/nerdcommenter'
-Bundle 'Bogdanp/rbrepl.vim'
 Bundle 'scrooloose/nerdtree.git'
+Bundle 'scrooloose/syntastic'
+Bundle 'Bogdanp/rbrepl.vim'
 Bundle 'jQuery'
 Bundle 'vim-scripts/dbext.vim.git'
 Bundle 'kchmck/vim-coffee-script'
 Bundle 'ngmy/vim-rubocop'
 Bundle 'mattn/emmet-vim'
 Bundle 'rainerborene/vim-reek'
+Bundle 'Valloric/YouCompleteMe'
+Bundle 'marijnh/tern_for_vim'
 "Bundle 'Lokaltog/powerline'
 
 Bundle 'L9'
