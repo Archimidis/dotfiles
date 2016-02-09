@@ -1,3 +1,9 @@
+"scriptencoding utf-8
+"set encoding=utf-8
+
+"------ Pathogen ------"
+execute pathogen#infect()
+
 "------- Functions -----------------------------------------------------------"
 func! DeleteTrailingWS()
     exe "normal mz"
@@ -7,6 +13,7 @@ endfunc
 
 "------- General VIM setup ---------------------------------------------------"
 set sessionoptions-=options
+"set autoread  "Reload files changed outside vim
 
 " automatically reload vimrc when it's saved
 au BufWritePost .vimrc so ~/.vimrc
@@ -36,15 +43,23 @@ set visualbell t_vb=            " and don't make faces
 set lazyredraw                  " don't redraw while in macros
 set scrolloff=5                 " keep at least 5 lines around the cursor
 set wrap                        " soft wrap long lines
-set list                        " show invisible characters
+" set list                        " show invisible characters
 set listchars=tab:>·,trail:·    " but only show tabs and trailing whitespace
 set report=0                    " report back on all changes
 set shortmess=atI               " shorten messages and don't show intro
 set wildmenu                    " turn on wild menu :e <Tab>
 set wildmode=list:longest       " set wildmenu to list choice
-"colorscheme desert
-set colorcolumn=80              " paints a column at 80
-highlight ColorColumn ctermbg=6
+
+syntax enable
+if !has('gui_running')
+    let g:solarized_termcolors=256
+    let g:solarized_termtrans=1
+endif
+set background=dark
+colorscheme solarized
+
+"set colorcolumn=80              " paints a column at 80
+"highlight ColorColumn ctermbg=6
 
 set statusline=%<%f\ %h%m%r%{fugitive#statusline()}%=%-14.(%l,%c%V%)\ %P
 
@@ -79,6 +94,31 @@ filetype plugin on
 
 "----- Plugins setup ---------------------------------------------------------"
 
+"----- Rainbow Parentheses plugin ------"
+"let g:rbpt_colorpairs = [
+    "\ ['brown',       'RoyalBlue3'],
+    "\ ['Darkblue',    'SeaGreen3'],
+    "\ ['darkgray',    'DarkOrchid3'],
+    "\ ['darkgreen',   'firebrick3'],
+    "\ ['darkcyan',    'RoyalBlue3'],
+    "\ ['darkred',     'SeaGreen3'],
+    "\ ['darkmagenta', 'DarkOrchid3'],
+    "\ ['brown',       'firebrick3'],
+    "\ ['gray',        'RoyalBlue3'],
+    "\ ['darkmagenta', 'DarkOrchid3'],
+    "\ ['Darkblue',    'firebrick3'],
+    "\ ['darkgreen',   'RoyalBlue3'],
+    "\ ['darkcyan',    'SeaGreen3'],
+    "\ ['darkred',     'DarkOrchid3'],
+    "\ ['red',         'firebrick3'],
+    "\ ]
+
+"au VimEnter * RainbowParenthesesToggle
+"au Syntax * RainbowParenthesesLoadRound
+"au Syntax * RainbowParenthesesLoadSquare
+"au Syntax * RainbowParenthesesLoadBraces
+
+
 "----- Reek plugin ------"
 let g:reek_on_loading = 0
 
@@ -86,16 +126,36 @@ let g:reek_on_loading = 0
 :let g:session_autosave = 'yes'
 
 "----- NERDTree setup ------"
-autocmd vimenter * NERDTree
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+
 map <F9> :NERDTreeToggle %<CR>
 " Close vim if the only windows left open is a NERDTree
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
-"------ Pathogen ------"
-execute pathogen#infect()
+function! NERDTreeHighlightFile(extension, fg, bg, guifg, guibg)
+ exec 'autocmd filetype nerdtree highlight ' . a:extension .' ctermbg='. a:bg .' ctermfg='. a:fg .' guibg='. a:guibg .' guifg='. a:guifg
+ exec 'autocmd filetype nerdtree syn match ' . a:extension .' #^\s\+.*'. a:extension .'$#'
+endfunction
+
+call NERDTreeHighlightFile('hs', 'green', 'none', 'green', '#151515')
+call NERDTreeHighlightFile('jade', 'green', 'none', 'green', '#151515')
+call NERDTreeHighlightFile('ini', 'yellow', 'none', 'yellow', '#151515')
+call NERDTreeHighlightFile('md', 'blue', 'none', '#3366FF', '#151515')
+call NERDTreeHighlightFile('yml', 'yellow', 'none', 'yellow', '#151515')
+call NERDTreeHighlightFile('config', 'yellow', 'none', 'yellow', '#151515')
+call NERDTreeHighlightFile('conf', 'yellow', 'none', 'yellow', '#151515')
+call NERDTreeHighlightFile('json', 'yellow', 'none', 'yellow', '#151515')
+call NERDTreeHighlightFile('html', 'yellow', 'none', 'yellow', '#151515')
+call NERDTreeHighlightFile('styl', 'cyan', 'none', 'cyan', '#151515')
+call NERDTreeHighlightFile('css', 'cyan', 'none', 'cyan', '#151515')
+call NERDTreeHighlightFile('coffee', 'Red', 'none', 'red', '#151515')
+call NERDTreeHighlightFile('js', 'Red', 'none', '#ffa500', '#151515')
+call NERDTreeHighlightFile('php', 'Magenta', 'none', '#ff00ff', '#151515')
 
 "------ Syntastic ------"
 let g:syntastic_check_on_open=1
+" let g:syntastic_javascript_checkers = ['eslint']
 
 "------ YouCompleteMe ------"
 let g:ycm_add_preview_to_completeopt=0
@@ -118,6 +178,10 @@ if executable('ag')
     let g:ctrlp_use_caching = 0
 endif
 
+"------ Airline ------"
+"let g:airline_inactive_collapse=0
+"set laststatus=2
+
 "----- Key bindings ----------------------------------------------------------"
 " Tab navigation keys:
 " Ctrl + l = move to the next tab
@@ -136,13 +200,16 @@ noremap <leader>w :call DeleteTrailingWS()<CR>
 " Bind K to grep word under cursor using the silver sarcher
 nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
 
-" RSpec.vim mappings
-map <Leader>rt :call RunCurrentSpecFile()<CR>
-map <Leader>rs :call RunNearestSpec()<CR>
-map <Leader>rl :call RunLastSpec()<CR>
-map <Leader>ra :call RunAllSpecs()<CR>
-
+map ,y :call JsBeautify()<cr>
 "------ Filetypes ------------------------------------------------------------"
+autocmd BufRead,BufNewFile,BufFilePre .babelrc        setfiletype json
+autocmd BufRead,BufNewFile,BufFilePre .bowerrc        setfiletype json
+autocmd BufRead,BufNewFile,BufFilePre .eslintrc       setfiletype json
+autocmd BufRead,BufNewFile,BufFilePre .jscsrc         setfiletype json
+autocmd BufRead,BufNewFile,BufFilePre .jshintrc       setfiletype json
+
+autocmd BufRead,BufNewFile,BufFilePre *.md            setfiletype markdown.pandoc
+
 " Vimscript
 autocmd FileType vim setlocal expandtab shiftwidth=4 tabstop=8 softtabstop=4
 
@@ -169,6 +236,9 @@ autocmd FileType css setlocal expandtab shiftwidth=4 tabstop=4 softtabstop=4
 autocmd FileType javascript setlocal expandtab shiftwidth=2 tabstop=2 softtabstop=2
 let javascript_enable_domhtmlcss=1
 
+" Elixir
+autocmd FileType ex,exs setlocal expandtab shiftwidth=4 tabstop=4 softtabstop=4
+
 " Vundle Setup
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
@@ -178,47 +248,45 @@ call vundle#rc()
 Bundle 'gmarik/vundle'
 Bundle 'Lokaltog/vim-easymotion'
 Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}
-Bundle 'vim-ruby/vim-ruby'
-Bundle 'nelstrom/vim-textobj-rubyblock'
-Bundle 'kana/vim-textobj-user'
-Bundle 'lucapette/vim-ruby-doc'
-Bundle 'tpope/vim-rails.git'
 Bundle 'tpope/vim-pathogen.git'
 Bundle 'tpope/vim-endwise.git'
 Bundle 'tpope/vim-fugitive.git'
 Bundle 'tpope/vim-surround.git'
-Bundle 'tpope/gem-ctags.git'
 Bundle 'tpope/vim-cucumber'
 Bundle 'tpope/vim-unimpaired'
-Bundle 'thoughtbot/vim-rspec'
 Bundle 'edsono/vim-matchit'
 Bundle 'MarcWeber/vim-addon-mw-utils'
 Bundle 'tomtom/tlib_vim'
 Bundle 'garbas/vim-snipmate.git'
 Bundle 'honza/vim-snippets.git'
-Bundle 'ecomba/vim-ruby-refactoring'
-Bundle 'tpope/vim-haml'
 Bundle 'scrooloose/nerdcommenter'
 Bundle 'scrooloose/nerdtree.git'
 Bundle 'scrooloose/syntastic'
-Bundle 'Bogdanp/rbrepl.vim'
-Bundle 'jQuery'
-Bundle 'vim-scripts/dbext.vim.git'
-Bundle 'kchmck/vim-coffee-script'
-Bundle 'ngmy/vim-rubocop'
 Bundle 'mattn/emmet-vim'
-Bundle 'rainerborene/vim-reek'
-Bundle 'Valloric/YouCompleteMe'
 Bundle 'marijnh/tern_for_vim'
+Bundle 'git://git.wincent.com/command-t.git'
+"Bundle 'vim-airline/vim-airline'
+"Bundle 'edkolev/promptline.vim'
+"Bundle 'vim-airline/vim-airline-themes'
+
+Plugin 'jelera/vim-javascript-syntax'
+Bundle 'mxw/vim-jsx'
+
+Plugin 'maksimr/vim-jsbeautify'
+Plugin 'einars/js-beautify'
+
+" Bundle 'airblade/vim-gitgutter'
+
+"Bundle 'Valloric/YouCompleteMe'
+"Bundle 'kien/rainbow_parentheses.vim'
 "Bundle 'Lokaltog/powerline'
 
 Bundle 'L9'
 Bundle 'FuzzyFinder'
-Bundle 'git://git.wincent.com/command-t.git'
+"Bundle 'elixir-lang/vim-elixir'
 
 " colorschemes
-" Bundle 'jpo/vim-railscasts-theme'
-" Bundle 'altercation/vim-colors-solarized'
+Bundle 'altercation/vim-colors-solarized'
 
 filetype plugin indent on
 "params[:doc_file_upload_form][:file]
