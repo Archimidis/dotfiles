@@ -1,34 +1,17 @@
 [user]
-    email = nvourlakis@gmail.com
-    name = Nikolas Vourlakis
-[core]
-    editor = vim
-        pager = less
+	name = Nikolas Vourlakis
+	;signingkey = 8EFABD27
+	;useConfigOnly = true
 [push]
-    default = simple
-[color]
-    branch = auto
-    diff = auto
-    status = auto
-[color "branch"]
-    current = yellow reverse
-    local = yellow
-    remote = green
-[color "diff"]
-    meta = yellow bold
-    frag = magenta bold
-    old = red
-    new = cyan
-[color "status"]
-    added = yellow
-    changed = green
-    untracked = cyan
+	default = simple
+	followTags = true
+[branch]
+	autosetuprebase = always
+[credential]
+	helper = cache
 [alias]
-    lg1 = log --graph --abbrev-commit --decorate --date=relative --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all
-    lg2 = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all
-    lg = !"git lg1"
-    d = diff
-    g = grep --break --heading --line-number
-[grep]
-    extendRegexp = true
-    lineNumber = true
+	personal = config user.email \"nvourlakis@gmail.com\"
+[filter "lfs"]
+	clean = git-lfs clean %f
+	smudge = git-lfs smudge %f
+	required = true

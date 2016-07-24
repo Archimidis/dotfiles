@@ -71,8 +71,8 @@ set nofoldenable                " don't fold by default
 "------ Indents and tabs -----------------------------------------------------"
 set autoindent                  " set the cursor at same indent as line above
 set smartindent                 " try to be smart about indenting (C-style)
-set expandtab                   " expand <Tab>s with spaces; death to tabs!
 set smarttab
+set expandtab                   " expand <Tab>s with spaces; death to tabs!
 set shiftwidth=4                " spaces for each step of (auto)indent
 set softtabstop=4               " set virtual tab stop (compat for 8-wide tabs)
 set tabstop=8                   " for proper display of files with tabs
@@ -120,10 +120,10 @@ filetype plugin on
 
 
 "----- Reek plugin ------"
-let g:reek_on_loading = 0
+"let g:reek_on_loading = 0
 
 "----- Vim-Session setup ------"
-:let g:session_autosave = 'yes'
+":let g:session_autosave = 'yes'
 
 "----- NERDTree setup ------"
 autocmd StdinReadPre * let s:std_in=1
@@ -154,8 +154,17 @@ call NERDTreeHighlightFile('js', 'Red', 'none', '#ffa500', '#151515')
 call NERDTreeHighlightFile('php', 'Magenta', 'none', '#ff00ff', '#151515')
 
 "------ Syntastic ------"
-let g:syntastic_check_on_open=1
-" let g:syntastic_javascript_checkers = ['eslint']
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+"let g:syntastic_always_populate_loc_list = 1
+"let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+
+let g:syntastic_javascript_checkers = ['eslint']
+"let g:syntastic_debug=1
 
 "------ YouCompleteMe ------"
 let g:ycm_add_preview_to_completeopt=0
@@ -200,6 +209,8 @@ noremap <leader>w :call DeleteTrailingWS()<CR>
 " Bind K to grep word under cursor using the silver sarcher
 nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
 
+let g:markdown_fenced_languages = ['javascript', 'html', 'vim', 'ruby', 'python', 'bash=sh']
+
 map ,y :call JsBeautify()<cr>
 "------ Filetypes ------------------------------------------------------------"
 autocmd BufRead,BufNewFile,BufFilePre .babelrc        setfiletype json
@@ -207,6 +218,7 @@ autocmd BufRead,BufNewFile,BufFilePre .bowerrc        setfiletype json
 autocmd BufRead,BufNewFile,BufFilePre .eslintrc       setfiletype json
 autocmd BufRead,BufNewFile,BufFilePre .jscsrc         setfiletype json
 autocmd BufRead,BufNewFile,BufFilePre .jshintrc       setfiletype json
+autocmd BufRead,BufNewFile,BufFilePre .pug            setfiletype haml
 
 autocmd BufRead,BufNewFile,BufFilePre *.md            setfiletype markdown.pandoc
 
@@ -217,6 +229,9 @@ autocmd FileType vim setlocal expandtab shiftwidth=4 tabstop=8 softtabstop=4
 autocmd FileType sh setlocal expandtab shiftwidth=4 tabstop=8 softtabstop=4
 
 " Ruby
+autocmd FileType ruby setlocal expandtab shiftwidth=2 tabstop=2 softtabstop=2
+
+" Haskell
 autocmd FileType ruby setlocal expandtab shiftwidth=2 tabstop=2 softtabstop=2
 
 " PHP
@@ -241,7 +256,7 @@ autocmd FileType ex,exs setlocal expandtab shiftwidth=4 tabstop=4 softtabstop=4
 
 " Vundle Setup
 set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
+call vundle#begin()
 
 " let Vundle manage Vundle !!required!!
 " nelstrom/vim-textobj-rubyblock depends on kana/vim-textobj-user
@@ -264,7 +279,9 @@ Bundle 'scrooloose/nerdtree.git'
 Bundle 'scrooloose/syntastic'
 Bundle 'mattn/emmet-vim'
 Bundle 'marijnh/tern_for_vim'
-Bundle 'git://git.wincent.com/command-t.git'
+
+"Bundle 'git://git.wincent.com/command-t.git'
+
 "Bundle 'vim-airline/vim-airline'
 "Bundle 'edkolev/promptline.vim'
 "Bundle 'vim-airline/vim-airline-themes'
@@ -273,11 +290,12 @@ Plugin 'jelera/vim-javascript-syntax'
 Bundle 'mxw/vim-jsx'
 
 Plugin 'maksimr/vim-jsbeautify'
-Plugin 'einars/js-beautify'
+Plugin 'editorconfig/editorconfig-vim'
+"Plugin 'einars/js-beautify'
 
 " Bundle 'airblade/vim-gitgutter'
 
-"Bundle 'Valloric/YouCompleteMe'
+Bundle 'Valloric/YouCompleteMe'
 "Bundle 'kien/rainbow_parentheses.vim'
 "Bundle 'Lokaltog/powerline'
 
@@ -287,6 +305,7 @@ Bundle 'FuzzyFinder'
 
 " colorschemes
 Bundle 'altercation/vim-colors-solarized'
+call vundle#end()
 
 filetype plugin indent on
 "params[:doc_file_upload_form][:file]
