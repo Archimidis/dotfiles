@@ -5,9 +5,10 @@ bundle/
 *.*~
 *.swp
 
-.autoload/*
-.backup/*
-.tmp/*
+.vim/autoload/
+.vim/backup/
+.vim/tmp/
+
 .nviminfo
 .viminfo
 
