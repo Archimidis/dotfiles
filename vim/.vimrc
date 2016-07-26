@@ -106,6 +106,13 @@ if !has('gui_running')
     let g:solarized_termtrans=1
 endif
 
+if has('gui_running')
+    set guioptions-=m " remove menu bar
+    set guioptions-=T " remove toolbar
+    set guioptions-=r " remove right-hand scroll bar
+    set guioptions-=L " remove left-hand scroll bar
+endif
+
 set background=dark
 colorscheme solarized
 
