@@ -1,8 +1,58 @@
 "scriptencoding utf-8
 "set encoding=utf-8
 
-"------ Pathogen ------"
-execute pathogen#infect()
+"------- Vundle Setup --------------------------------------------------------"
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+
+Plugin 'VundleVim/Vundle.vim'
+
+Plugin 'FuzzyFinder'
+Plugin 'L9'
+
+Plugin 'easymotion/vim-easymotion' " A simpler way to use some motions in vim
+Plugin 'benjifisher/matchit.zip' " Configure % to match other constructs as well
+Plugin 'editorconfig/editorconfig-vim' " Requires installation of editorconfig-core-c
+
+Plugin 'scrooloose/nerdcommenter' " Comment functions
+Plugin 'scrooloose/nerdtree.git' " Tree explorer plugin
+Plugin 'scrooloose/syntastic' " Syntastic is a syntax checking plugin
+
+Plugin 'tpope/vim-endwise.git' " Help to end certain structures automatically
+Plugin 'tpope/vim-fugitive.git' " Git wrapper
+Plugin 'tpope/vim-surround.git'
+Plugin 'tpope/vim-unimpaired' " Complementary pairs of mappings
+Plugin 'tpope/vim-repeat' " Enable repeating supported plugin maps with '.'
+
+" The following 4 plugins must be installed together
+Plugin 'MarcWeber/vim-addon-mw-utils'
+Plugin 'tomtom/tlib_vim'
+Plugin 'garbas/vim-snipmate.git'
+Plugin 'honza/vim-snippets.git'
+
+" Javascript, JSON
+Plugin 'elzr/vim-json'
+Plugin 'pangloss/vim-javascript'
+Plugin 'mxw/vim-jsx'
+Plugin 'othree/javascript-libraries-syntax.vim' " Extends syntax for lodash, etc
+Plugin 'moll/vim-node'
+Plugin 'marijnh/tern_for_vim'
+Plugin 'maksimr/vim-jsbeautify' " JS Style from .editorconfig
+
+" Colour themes
+Plugin 'altercation/vim-colors-solarized'
+" Plugin 'morhetz/gruvbox'
+
+Plugin 'airblade/vim-gitgutter' " Show git diff
+
+" Plugins for html
+" Plugin 'mattn/emmet-vim'
+" Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
+
+" Plugin 'Valloric/YouCompleteMe'
+" Plugin 'git://git.wincent.com/command-t.git'
+
+call vundle#end()
 
 "------- Functions -----------------------------------------------------------"
 func! DeleteTrailingWS()
@@ -55,6 +105,7 @@ if !has('gui_running')
     let g:solarized_termcolors=256
     let g:solarized_termtrans=1
 endif
+
 set background=dark
 colorscheme solarized
 
@@ -93,37 +144,6 @@ filetype off                   " required!
 filetype plugin on
 
 "----- Plugins setup ---------------------------------------------------------"
-
-"----- Rainbow Parentheses plugin ------"
-"let g:rbpt_colorpairs = [
-    "\ ['brown',       'RoyalBlue3'],
-    "\ ['Darkblue',    'SeaGreen3'],
-    "\ ['darkgray',    'DarkOrchid3'],
-    "\ ['darkgreen',   'firebrick3'],
-    "\ ['darkcyan',    'RoyalBlue3'],
-    "\ ['darkred',     'SeaGreen3'],
-    "\ ['darkmagenta', 'DarkOrchid3'],
-    "\ ['brown',       'firebrick3'],
-    "\ ['gray',        'RoyalBlue3'],
-    "\ ['darkmagenta', 'DarkOrchid3'],
-    "\ ['Darkblue',    'firebrick3'],
-    "\ ['darkgreen',   'RoyalBlue3'],
-    "\ ['darkcyan',    'SeaGreen3'],
-    "\ ['darkred',     'DarkOrchid3'],
-    "\ ['red',         'firebrick3'],
-    "\ ]
-
-"au VimEnter * RainbowParenthesesToggle
-"au Syntax * RainbowParenthesesLoadRound
-"au Syntax * RainbowParenthesesLoadSquare
-"au Syntax * RainbowParenthesesLoadBraces
-
-
-"----- Reek plugin ------"
-"let g:reek_on_loading = 0
-
-"----- Vim-Session setup ------"
-":let g:session_autosave = 'yes'
 
 "----- NERDTree setup ------"
 autocmd StdinReadPre * let s:std_in=1
@@ -175,6 +195,15 @@ set completeopt-=preview
 imap <C-J> <Plug>snipMateNextOrTrigger
 smap <C-J> <Plug>snipMateNextOrTrigger
 
+"------ editorconfig ------"
+let g:EditorConfig_exclude_patterns = ['fugitive://.*']
+
+"------ vim-javascript ----"
+let g:javascript_plugin_jsdoc = 1
+
+"------ vim-jsbeautify -"
+map ,y :call JsBeautify()<cr>
+
 "------ The Silver Searcher ------"
 if executable('ag')
     " Use ag over grep
@@ -186,10 +215,6 @@ if executable('ag')
     " ag is fast enough that CtrlP doesn't need to cache
     let g:ctrlp_use_caching = 0
 endif
-
-"------ Airline ------"
-"let g:airline_inactive_collapse=0
-"set laststatus=2
 
 "----- Key bindings ----------------------------------------------------------"
 " Tab navigation keys:
@@ -211,7 +236,6 @@ nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
 
 let g:markdown_fenced_languages = ['javascript', 'html', 'vim', 'ruby', 'python', 'bash=sh']
 
-map ,y :call JsBeautify()<cr>
 "------ Filetypes ------------------------------------------------------------"
 autocmd BufRead,BufNewFile,BufFilePre .babelrc        setfiletype json
 autocmd BufRead,BufNewFile,BufFilePre .bowerrc        setfiletype json
@@ -234,14 +258,8 @@ autocmd FileType ruby setlocal expandtab shiftwidth=2 tabstop=2 softtabstop=2
 " Haskell
 autocmd FileType ruby setlocal expandtab shiftwidth=2 tabstop=2 softtabstop=2
 
-" PHP
-autocmd FileType php setlocal expandtab shiftwidth=4 tabstop=4 softtabstop=4
-
 " X?HTML & XML
 autocmd FileType html,xhtml,xml setlocal expandtab shiftwidth=2 tabstop=2 softtabstop=2
-
-" coffeescript
-autocmd FileType coffee setlocal expandtab shiftwidth=2 tabstop=2 softtabstop=2
 
 " CSS
 autocmd FileType css setlocal expandtab shiftwidth=4 tabstop=4 softtabstop=4
@@ -251,66 +269,3 @@ autocmd FileType css setlocal expandtab shiftwidth=4 tabstop=4 softtabstop=4
 autocmd FileType javascript setlocal expandtab shiftwidth=2 tabstop=2 softtabstop=2
 let javascript_enable_domhtmlcss=1
 
-" Elixir
-autocmd FileType ex,exs setlocal expandtab shiftwidth=4 tabstop=4 softtabstop=4
-
-" Vundle Setup
-set rtp+=~/.vim/bundle/vundle/
-call vundle#begin()
-
-" let Vundle manage Vundle !!required!!
-" nelstrom/vim-textobj-rubyblock depends on kana/vim-textobj-user
-Bundle 'gmarik/vundle'
-Bundle 'Lokaltog/vim-easymotion'
-Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}
-Bundle 'tpope/vim-pathogen.git'
-Bundle 'tpope/vim-endwise.git'
-Bundle 'tpope/vim-fugitive.git'
-Bundle 'tpope/vim-surround.git'
-Bundle 'tpope/vim-cucumber'
-Bundle 'tpope/vim-unimpaired'
-Bundle 'edsono/vim-matchit'
-Bundle 'MarcWeber/vim-addon-mw-utils'
-Bundle 'tomtom/tlib_vim'
-Bundle 'garbas/vim-snipmate.git'
-Bundle 'honza/vim-snippets.git'
-Bundle 'scrooloose/nerdcommenter'
-Bundle 'scrooloose/nerdtree.git'
-Bundle 'scrooloose/syntastic'
-Bundle 'mattn/emmet-vim'
-Bundle 'marijnh/tern_for_vim'
-
-"Bundle 'git://git.wincent.com/command-t.git'
-
-"Bundle 'vim-airline/vim-airline'
-"Bundle 'edkolev/promptline.vim'
-"Bundle 'vim-airline/vim-airline-themes'
-
-Plugin 'jelera/vim-javascript-syntax'
-Bundle 'mxw/vim-jsx'
-
-Plugin 'maksimr/vim-jsbeautify'
-Plugin 'editorconfig/editorconfig-vim'
-"Plugin 'einars/js-beautify'
-
-" Bundle 'airblade/vim-gitgutter'
-
-Bundle 'Valloric/YouCompleteMe'
-"Bundle 'kien/rainbow_parentheses.vim'
-"Bundle 'Lokaltog/powerline'
-
-Bundle 'L9'
-Bundle 'FuzzyFinder'
-"Bundle 'elixir-lang/vim-elixir'
-
-" colorschemes
-Bundle 'altercation/vim-colors-solarized'
-call vundle#end()
-
-filetype plugin indent on
-"params[:doc_file_upload_form][:file]
-" Brief help
-" :BundleList          - list configured bundles
-" :BundleInstall(!)    - install(update) bundles
-" :BundleSearch(!) foo - search(or refresh cache first) for foo
-" :BundleClean(!)      - confirm(or auto-approve) removal of unused bundles

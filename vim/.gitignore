@@ -1,0 +1,13 @@
+# plugin
+bundle/
+
+# cache
+*.*~
+*.swp
+
+.autoload/*
+.backup/*
+.tmp/*
+.nviminfo
+.viminfo
+
