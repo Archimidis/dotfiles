@@ -49,8 +49,8 @@ Plugin 'airblade/vim-gitgutter' " Show git diff
 " Plugin 'mattn/emmet-vim'
 " Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
 
-" Plugin 'Valloric/YouCompleteMe'
-" Plugin 'git://git.wincent.com/command-t.git'
+Plugin 'Valloric/YouCompleteMe'
+Plugin 'git://git.wincent.com/command-t.git'
 
 call vundle#end()
 
@@ -257,7 +257,6 @@ autocmd FileType html,xhtml,xml setlocal expandtab shiftwidth=2 tabstop=2 softta
 autocmd FileType css setlocal expandtab shiftwidth=4 tabstop=4 softtabstop=4
 
 " JavaScript
-" autocmd BufRead,BufNewFile *.json setfiletype javascript
 autocmd FileType javascript setlocal expandtab shiftwidth=2 tabstop=2 softtabstop=2
 let javascript_enable_domhtmlcss=1
 
