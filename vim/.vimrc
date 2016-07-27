@@ -88,8 +88,6 @@ set cmdheight=1                 " explicitly set the height of the command line
 set showcmd                     " Show (partial) command in status line.
 set number                      " yay line numbers
 set ruler                       " show current position at bottom
-set noerrorbells                " don't whine
-set visualbell t_vb=            " and don't make faces
 set lazyredraw                  " don't redraw while in macros
 set scrolloff=5                 " keep at least 5 lines around the cursor
 set wrap                        " soft wrap long lines
@@ -100,11 +98,12 @@ set shortmess=atI               " shorten messages and don't show intro
 set wildmenu                    " turn on wild menu :e <Tab>
 set wildmode=list:longest       " set wildmenu to list choice
 
-syntax enable
-if !has('gui_running')
-    let g:solarized_termcolors=256
-    let g:solarized_termtrans=1
+set noerrorbells visualbell t_vb=
+if has('autocmd')
+    autocmd GUIEnter * set visualbell t_vb=
 endif
+
+syntax enable
 
 if has('gui_running')
     set guifont=Hack\ 12
