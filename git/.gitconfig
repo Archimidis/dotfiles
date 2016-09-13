@@ -1,0 +1,17 @@
+[user]
+	name = Nikolas Vourlakis
+	;signingkey = 8EFABD27
+	;useConfigOnly = true
+[push]
+	default = simple
+	followTags = true
+[branch]
+	autosetuprebase = always
+[credential]
+	helper = cache
+[alias]
+	personal = config user.email \"nvourlakis@gmail.com\"
+[filter "lfs"]
+	clean = git-lfs clean %f
+	smudge = git-lfs smudge %f
+	required = true
