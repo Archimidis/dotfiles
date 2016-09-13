@@ -252,7 +252,7 @@ autocmd FileType sh setlocal expandtab shiftwidth=4 tabstop=8 softtabstop=4
 autocmd FileType ruby setlocal expandtab shiftwidth=2 tabstop=2 softtabstop=2
 
 " Haskell
-autocmd FileType ruby setlocal expandtab shiftwidth=2 tabstop=2 softtabstop=2
+autocmd FileType haskell setlocal expandtab shiftround shiftwidth=4 tabstop=8 softtabstop=4
 
 " X?HTML & XML
 autocmd FileType html,xhtml,xml setlocal expandtab shiftwidth=2 tabstop=2 softtabstop=2
