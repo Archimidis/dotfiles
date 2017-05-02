@@ -5,13 +5,29 @@
 [push]
 	default = simple
 	followTags = true
+[status]
+        showUntrackedFiles = all
 [branch]
 	autosetuprebase = always
 [credential]
 	helper = cache
 [alias]
 	personal = config user.email \"nvourlakis@gmail.com\"
+	it = !git init && git commit -m \"root\" --allow-empty
+        showtool = "!f() { git difftool $1^ $1; }; f"
+        added = difftool --cached
 [filter "lfs"]
 	clean = git-lfs clean %f
 	smudge = git-lfs smudge %f
 	required = true
+
+# Use icdiff when calling difftool to see diff like it's on github.
+# See more about the tool -> https://github.com/jeffkaufman/icdiff.
+[diff]
+        tool = icdiff
+[difftool]
+        prompt = false
+[difftool "icdiff"]
+        cmd = /usr/local/bin/icdiff --line-numbers $LOCAL $REMOTE
+[pager]
+        difftool = true
