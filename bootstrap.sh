@@ -20,3 +20,5 @@ ln -s ${BASEDIR}/vim/.vim/ ~/.vim
 # echo Creating symbolic links for tmux 
 # ln -s ${BASEDIR}/tmux.conf ~/.tmux.conf
 
+# haskell
+ln -s ${BASEDIR}/ghc/.ghci ~/ghci
