@@ -43,7 +43,7 @@ Plugin 'maksimr/vim-jsbeautify' " JS Style from .editorconfig
 Plugin 'altercation/vim-colors-solarized'
 " Plugin 'morhetz/gruvbox'
 
-Plugin 'airblade/vim-gitgutter' " Show git diff
+"Plugin 'airblade/vim-gitgutter' " Show git diff
 
 " Plugins for html
 " Plugin 'mattn/emmet-vim'
@@ -176,6 +176,7 @@ let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 
 let g:syntastic_javascript_checkers = ['eslint']
+let g:syntastic_scss_checkers = ['scss_lint']
 "let g:syntastic_debug=1
 
 "------ YouCompleteMe ------"
@@ -196,6 +197,9 @@ let g:EditorConfig_exclude_patterns = ['fugitive://.*']
 
 "------ vim-javascript ----"
 let g:javascript_plugin_jsdoc = 1
+
+"------ vim-jsx -----------"
+let g:jsx_ext_required = 0
 
 "------ vim-jsbeautify -"
 map ,y :call JsBeautify()<cr>
@@ -252,15 +256,15 @@ autocmd FileType sh setlocal expandtab shiftwidth=4 tabstop=8 softtabstop=4
 autocmd FileType ruby setlocal expandtab shiftwidth=2 tabstop=2 softtabstop=2
 
 " Haskell
-autocmd FileType haskell setlocal expandtab shiftround shiftwidth=4 tabstop=8 softtabstop=4
+autocmd FileType haskell setlocal expandtab shiftwidth=2 tabstop=2 softtabstop=2
 
 " X?HTML & XML
 autocmd FileType html,xhtml,xml setlocal expandtab shiftwidth=2 tabstop=2 softtabstop=2
 
-" CSS
-autocmd FileType css setlocal expandtab shiftwidth=4 tabstop=4 softtabstop=4
+" SASS, SCSS, CSS
+autocmd FileType sass,scss,css setlocal expandtab shiftwidth=2 tabstop=2 softtabstop=2
 
 " JavaScript
-autocmd FileType javascript setlocal expandtab shiftwidth=2 tabstop=2 softtabstop=2
+autocmd FileType javascript,json setlocal expandtab shiftwidth=2 tabstop=2 softtabstop=2
 let javascript_enable_domhtmlcss=1
 
