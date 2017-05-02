@@ -1,0 +1,11 @@
+:set prompt "λ> "
+
+-- Hoogle (stack install hoogle && hoogle generate)
+:def hoogle \str -> return $ ":! hoogle --color --count=15 " ++ show str
+:def doc    \str -> return $ ":! hoogle search --color --info " ++ show str
+
+-- Clear the REPL screen
+:def clear const . return $ ":! clear"
+
+-- show types
+:set +t
