@@ -1,0 +1,37 @@
+"*":
+  core:
+    autoHideMenuBar: true
+    customFileTypes:
+      "source.ini": [
+        ".buckconfig"
+        ".hgrc"
+        ".flowconfig"
+      ]
+      "source.json": [
+        "BUCK.autodeps"
+      ]
+      "source.python": [
+        "BUCK"
+      ]
+    disabledPackages: [
+      "tree-view"
+    ]
+    telemetryConsent: "no"
+  editor:
+    fontSize: 15
+  "exception-reporting":
+    userId: "43adb243-b3c1-44e1-a3ee-59ac85fb39b6"
+  "linter-ui-default":
+    panelHeight: 69
+    showPanel: true
+  nuclide:
+    "nuclide-home":
+      showHome: false
+  "prettier-atom":
+    prettierOptions:
+      singleQuote: true
+    useEslint: true
+  "tool-bar":
+    visible: false
+  welcome:
+    showOnStartup: false
