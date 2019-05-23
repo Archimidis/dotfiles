@@ -256,7 +256,10 @@ autocmd FileType sh setlocal expandtab shiftwidth=4 tabstop=8 softtabstop=4
 autocmd FileType ruby setlocal expandtab shiftwidth=2 tabstop=2 softtabstop=2
 
 " Haskell
+autocmd BufNewFile,BufRead *.x set filetype=alex
+autocmd BufNewFile,BufRead *.y set filetype=happy
 autocmd FileType haskell setlocal expandtab shiftwidth=2 tabstop=2 softtabstop=2
+autocmd FileType alex,happy setlocal expandtab shiftwidth=2 tabstop=2 softtabstop=2
 
 " X?HTML & XML
 autocmd FileType html,xhtml,xml setlocal expandtab shiftwidth=2 tabstop=2 softtabstop=2
